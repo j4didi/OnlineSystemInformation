@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Task Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            direction: rtl;
+        }
+        canvas {
+            max-width: 700px;
+            max-height: 700px;
+            width: 100% !important;
+            height: auto !important;
+            display: block;
+            margin: 0 auto;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>System Information</h1>
+
+    <canvas id="barChart"></canvas>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>CPU</td><td id="cpu_percent">...</td></tr>
+            <tr><td>Memory</td><td id="memory_percent">...</td></tr>
+            <tr><td>Disk</td><td id="disk_percent">...</td></tr>
+            <tr><td>Network</td><td id="network_usage">...</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+        const barCtx = document.getElementById('barChart').getContext('2d');
+
+        const chartData = {
+            labels: ['CPU', 'Memory', 'Disk', 'Network'],
+            datasets: [{
+                data: [0, 0, 0, 0],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                ]
+            }]
+        };
+
+        const barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            stepSize: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        function fetchSystemInfo() {
+            fetch('/api/system_info')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cpu_percent').textContent = data.cpu_percent + "%";
+                    document.getElementById('memory_percent').textContent = data.memory_percent + "%";
+                    document.getElementById('disk_percent').textContent = data.disk_percent + "%";
+                    document.getElementById('network_usage').textContent = " MB" + data.network_usage.toFixed(2);
+
+                    let networkNormalized = Math.min((data.network_usage / 10), 100);
+
+                    barChart.data.datasets[0].data = [
+                        data.cpu_percent,
+                        data.memory_percent,
+                        data.disk_percent,
+                        networkNormalized
+                    ];
+                    barChart.update();
+                })
+                .catch(error => console.error('Error fetching system info:', error));
+        }
+
+        setInterval(fetchSystemInfo, 2000);
+        fetchSystemInfo();
+    </script>
+
+</body>
+</html>
