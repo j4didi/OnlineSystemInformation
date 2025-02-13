@@ -140,7 +140,7 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('cpu_percent').textContent = data.cpu_percent + "%";
-                    document.getElementById('memory_percent').textContent = parseFloat(data.memory_percent).toFixed(2) + "%";  // تغییرات برای دو رقم اعشار
+                    document.getElementById('memory_percent').textContent = parseFloat(data.memory_percent).toFixed(2) + "%";
                     document.getElementById('disk_percent').textContent = `⬇ ${data.disk_read} ⬆ ${data.disk_write}`;
                     document.getElementById('network_usage').textContent = `⬇ ${data.network_download} ⬆ ${data.network_upload}`;
 

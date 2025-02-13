@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, render_template
 import psutil
 import os
@@ -44,17 +45,21 @@ def get_processes():
     for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent']):
         try:
             p_info = proc.info
+            io_counters = proc.io_counters()
+            network_usage = sum(conn.status == 'ESTABLISHED' for conn in proc.connections(kind='inet'))
+
             processes.append({
                 "pid": p_info['pid'],
                 "name": p_info['name'],
                 "cpu_percent": p_info['cpu_percent'],
                 "memory_percent": p_info['memory_percent'],
-                "disk_usage": round(psutil.disk_io_counters().read_bytes / (1024 ** 2), 2),
-                "network_usage": round(psutil.net_io_counters().bytes_recv / (1024 ** 2), 2),
+                "disk_usage": round(io_counters.read_bytes / (1024 ** 2), 2),  # مصرف دیسک
+                "network_usage": round(network_usage / (1024 ** 2), 2),  # مصرف شبکه
             })
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             continue
     return processes
+
 
 @app.route('/')
 def index():
