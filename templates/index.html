@@ -178,7 +178,7 @@
                             proc.pid,
                             proc.name,
                             proc.cpu_percent + "%",
-                            parseFloat(proc.memory_percent).toFixed(2) + "%",  // تغییرات برای دو رقم اعشار
+                            parseFloat(proc.memory_percent).toFixed(2) + "%",
                             proc.disk_usage + " MBps",
                             proc.network_usage + " MBps",
                             `<button class="btn btn-danger btn-sm" onclick="endTask(${proc.pid})">End Task</button>`
