@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template
 import psutil
+import os
 import time
 
 app = Flask(__name__)
@@ -38,6 +39,23 @@ def get_system_info():
         "network_upload": round(upload_speed, 2)
     }
 
+def get_processes():
+    processes = []
+    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent']):
+        try:
+            p_info = proc.info
+            processes.append({
+                "pid": p_info['pid'],
+                "name": p_info['name'],
+                "cpu_percent": p_info['cpu_percent'],
+                "memory_percent": p_info['memory_percent'],
+                "disk_usage": round(psutil.disk_io_counters().read_bytes / (1024 ** 2), 2),
+                "network_usage": round(psutil.net_io_counters().bytes_recv / (1024 ** 2), 2),
+            })
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+    return processes
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -45,6 +63,18 @@ def index():
 @app.route('/api/system_info')
 def system_info():
     return jsonify(get_system_info())
+
+@app.route('/api/processes')
+def processes():
+    return jsonify(get_processes())
+
+@app.route('/api/end_task/<int:pid>', methods=['POST'])
+def end_task(pid):
+    try:
+        os.kill(pid, 9)
+        return jsonify({"message": f"Process {pid} terminated"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
