@@ -4,6 +4,7 @@ body {
     background-color: #343a40;
     color: #fff;
 }
+
 canvas {
     max-width: 100%;
     max-height: 700px;
@@ -12,17 +13,21 @@ canvas {
     display: block;
     margin: 0 auto;
 }
+
 table {
     table-layout: fixed;
     width: 100%;
 }
+
 th, td {
     width: 25%;
     text-align: center;
 }
+
 th {
     background-color: #495057;
 }
+
 .card {
     background-color: #495057;
     border: none;
@@ -31,16 +36,19 @@ th {
     max-width: 600px;
     height: 90%;
 }
+
 .card-header {
     background-color: #6c757d;
 }
+
 .card-body {
     background-color: #495057;
 }
+
 h1 {
     margin-bottom: 30px;
     margin-top: 30px;
-    }
+}
 
 .container-fluid {
     display: flex;
@@ -49,7 +57,46 @@ h1 {
     justify-content: flex-start;
     padding-top: 20px;
 }
+
 .processInfoCard {
     min-height: 50vh;
     margin-bottom: 50px;
+}
+
+.dataTables_paginate {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.dataTables_paginate .paginate_button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    color: #555;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.dataTables_paginate .paginate_button:active {
+    background-color: #0056b3;
+}
+
+.dataTables_length select {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.dataTables_filter input {
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
 }

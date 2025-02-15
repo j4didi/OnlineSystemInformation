@@ -38,8 +38,18 @@
 {% block scripts %}
     <script>
         $(document).ready(function() {
-            $('#processTable').DataTable();
+            $('#processTable').DataTable({
+                "order": [[2, "desc"]],
+                "language": {
+                    "lengthMenu": "_MENU_"
+                },
+                "dom": '<"row justify-content-center align-items-center"<"col-auto"f><"col-auto"l>>tip'
+            });
         });
+
+
+
+
         const cpuCtx = document.getElementById('cpuChart').getContext('2d');
         const memoryCtx = document.getElementById('memoryChart').getContext('2d');
         const diskCtx = document.getElementById('diskChart').getContext('2d');
@@ -170,6 +180,13 @@
             fetch('/api/processes')
                 .then(response => response.json())
                 .then(data => {
+                    data.sort((a, b) =>
+                        (b.cpu_percent - a.cpu_percent) ||
+                        (b.memory_percent - a.memory_percent) ||
+                        ((b.disk_read + b.disk_write) - (a.disk_read + a.disk_write)) ||
+                        ((b.network_download + b.network_upload) - (a.network_download + a.network_upload))
+                    );
+
                     let table = $('#processTable').DataTable();
                     table.clear();
 
@@ -179,16 +196,17 @@
                             proc.name,
                             proc.cpu_percent + "%",
                             parseFloat(proc.memory_percent).toFixed(2) + "%",
-                            proc.disk_usage + " MBps",
-                            proc.network_usage + " MBps",
+                            `⬇ ${proc.disk_read} ⬆ ${proc.disk_write}`,
+                            `⬇ ${proc.network_download} ⬆ ${proc.network_upload}`,
                             `<button class="btn btn-danger btn-sm" onclick="endTask(${proc.pid})">End Task</button>`
                         ]);
                     });
 
-                    table.draw();
+                    table.draw(false);
                 })
                 .catch(error => console.error('Error fetching processes:', error));
         }
+
 
         function endTask(pid) {
             fetch(`/api/end_task/${pid}`, { method: 'POST' })
@@ -204,4 +222,6 @@
         setInterval(fetchProcesses, 1000);
         fetchSystemInfo();
     </script>
+
+
 {% endblock %}
