@@ -106,5 +106,34 @@ def end_task(pid):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+
+@app.route('/process/<int:pid>')
+def process_details(pid):
+    try:
+        proc = psutil.Process(pid)
+        cpu_usage = proc.cpu_percent(interval=0.1)
+        memory_usage = proc.memory_percent()
+        io_counters = proc.io_counters()
+
+        # اطلاعات ورودی و خروجی شبکه
+        net_counters = proc.connections(kind='inet')
+        network_download = sum([conn.raddr[1] for conn in net_counters if conn.raddr])
+        network_upload = sum([conn.laddr[1] for conn in net_counters if conn.laddr])
+
+        process_info = {
+            "pid": pid,
+            "name": proc.name(),
+            "cpu_usage": cpu_usage,
+            "memory_usage": memory_usage,
+            "disk_read": io_counters.read_bytes / (1024 * 1024),
+            "disk_write": io_counters.write_bytes / (1024 * 1024),
+            "network_download": network_download,
+            "network_upload": network_upload
+        }
+        return render_template("process.html", process=process_info)
+    except psutil.NoSuchProcess:
+        return "Process not found", 404
+
+
 if __name__ == '__main__':
     app.run(debug=True)
