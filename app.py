@@ -114,8 +114,6 @@ def process_details(pid):
         cpu_usage = proc.cpu_percent(interval=0.1)
         memory_usage = proc.memory_percent()
         io_counters = proc.io_counters()
-
-        # اطلاعات ورودی و خروجی شبکه
         net_counters = proc.connections(kind='inet')
         network_download = sum([conn.raddr[1] for conn in net_counters if conn.raddr])
         network_upload = sum([conn.laddr[1] for conn in net_counters if conn.laddr])
