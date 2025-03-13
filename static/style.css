@@ -1,6 +1,6 @@
 body {
     text-align: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', 'Vazirmatn', Arial, sans-serif;
     background-color: #343a40;
     color: #fff;
 }
@@ -13,6 +13,75 @@ canvas {
     display: block;
     margin: 0 auto;
 }
+#processTable-header {
+    font-size: 20px;
+}
+.card {
+    background-color: #495057;
+    color: #fff;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    border-radius: 10px;
+    font-family: 'Roboto', 'Vazirmatn', sans-serif;
+}
+
+.card-body {
+    background-color: #495057;
+    padding: 15px;
+}
+
+h1 {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    font-family: 'Roboto', 'Vazirmatn', sans-serif;
+}
+p, table, th, td, button, input {
+    font-weight: 400;
+    font-size: 16px;
+    font-family: 'Roboto', 'Vazirmatn', sans-serif;
+}
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 20px;
+}
+
+.chart-container {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#processTable {
+    background-color: #495057;
+    color: #fff;
+    width: 100%;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#processTable th, #processTable td {
+    padding: 10px;
+    border-bottom: 1px solid #6c757d;
+}
+
+#processTable th {
+    background-color: #6c757d;
+}
+
+#total_usage {
+    background-color: #343a40;
+    font-weight: bold;
+}
 
 table {
     table-layout: fixed;
@@ -22,45 +91,6 @@ table {
 th, td {
     width: 25%;
     text-align: center;
-}
-
-th {
-    background-color: #495057;
-}
-
-.card {
-    background-color: #495057;
-    border: none;
-    color: #fff;
-    width: 60%;
-    max-width: 600px;
-    height: 90%;
-}
-
-.card-header {
-    background-color: #6c757d;
-}
-
-.card-body {
-    background-color: #495057;
-}
-
-h1 {
-    margin-bottom: 30px;
-    margin-top: 30px;
-}
-
-.container-fluid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 20px;
-}
-
-.processInfoCard {
-    min-height: 50vh;
-    margin-bottom: 50px;
 }
 
 .dataTables_paginate {

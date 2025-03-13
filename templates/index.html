@@ -5,33 +5,66 @@
 {% block content %}
     <h1>System Information</h1>
     <div class="row g-3">
-        <div class="col-md-3"><canvas id="cpuChart"></canvas></div>
-        <div class="col-md-3"><canvas id="memoryChart"></canvas></div>
-        <div class="col-md-3"><canvas id="diskChart"></canvas></div>
-        <div class="col-md-3"><canvas id="networkChart"></canvas></div>
+        <div class="col-md-3">
+            <div class="card chart-container">
+                <div class="card-header">CPU Usage</div>
+                <div class="card-body">
+                    <canvas id="cpuChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card chart-container">
+                <div class="card-header">Memory Usage</div>
+                <div class="card-body">
+                    <canvas id="memoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card chart-container">
+                <div class="card-header">Disk Usage</div>
+                <div class="card-body">
+                    <canvas id="diskChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card chart-container">
+                <div class="card-header">Network Usage</div>
+                <div class="card-body">
+                    <canvas id="networkChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
     <br>
-    <table id="processTable" class="display">
-        <thead>
-            <tr>
-                <th>PID</th>
-                <th>Name</th>
-                <th>CPU (%)</th>
-                <th>Memory (%)</th>
-                <th>Disk (MBps)</th>
-                <th>Network (MBps)</th>
-                <th>Action</th>
-            </tr>
-            <tr id="total_usage">
-                <td colspan="2"><b>Total Usage</b></td>
-                <td id="cpu_percent">...</td>
-                <td id="memory_percent">...</td>
-                <td id="disk_percent">...</td>
-                <td id="network_usage">...</td>
-                <td>-</td>
-            </tr>
-        </thead>
-    </table>
+    <div class="card chart-container" style="width: 70%; margin: 20px auto;">
+        <div class="card-header" id="processTable-header">Process Information</div>
+        <div class="card-body">
+            <table id="processTable" class="display">
+                <thead>
+                    <tr>
+                        <th>PID</th>
+                        <th>Name</th>
+                        <th>CPU (%)</th>
+                        <th>Memory (%)</th>
+                        <th>Disk (MBps)</th>
+                        <th>Network (MBps)</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr id="total_usage">
+                        <td colspan="2"><b>Total Usage</b></td>
+                        <td id="cpu_percent">...</td>
+                        <td id="memory_percent">...</td>
+                        <td id="disk_percent">...</td>
+                        <td id="network_usage">...</td>
+                        <td>-</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 
 {% endblock %}
 
